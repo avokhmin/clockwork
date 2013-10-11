@@ -153,6 +153,19 @@ class ManagerTest < Test::Unit::TestCase
       assert_will_run 'jan 1 2010 18:10:00'
       assert_wont_run 'jan 1 2010 18:10:01'
     end
+
+    test "once a week at monday 16:20" do
+      @manager.every(1.week, 'myjob', :at => 'Monday 16:20')
+
+      assert_wont_run 'april 1 2013 16:19:59'
+      assert_will_run 'april 1 2013 16:20:00'
+      assert_wont_run 'april 1 2013 16:20:01'
+      assert_wont_run 'april 2 2013 16:19:59'
+      assert_wont_run 'april 2 2013 16:20:00'
+
+      assert_wont_run 'april 8 2013 16:19:59'
+      assert_will_run 'april 8 2013 16:20:00'
+    end
   end
 
   describe ':tz option' do
